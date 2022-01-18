@@ -11,6 +11,7 @@ import { EmptyTodos } from '../EmptyTodos';
 import { TodoForm } from '../TodoForm';
 import { CreateTodoButton } from '../CreateTodoButton';
 import { Modal } from '../Modal';
+import { EmptySearchResults } from '../EmptySearchResults';
 
 function App() {
   const {
@@ -31,29 +32,34 @@ function App() {
   return (
     <React.Fragment>
 
-      <TodoHeader>
+      <TodoHeader loading={loading}>
         <TodoCounter
           totalTodos={totalTodos} 
-          completedTodos={completedTodos} />
+          completedTodos={completedTodos}/>
         <TodoSearch
           searchValue={searchValue} 
-          setSearchValue={setSearchValue} />
+          setSearchValue={setSearchValue}/>
       </TodoHeader>
 
-      <TodoList>
-        {error && <TodosError />}
-        {loading && <TodosLoading />}
-        {(!loading && !searchedTodos.length) && <EmptyTodos />}
+      <TodoList
+        error={error}
+        loading={loading}
+        searchedTodos={searchedTodos}
+        searchValue={searchValue}
+        totalTodos={totalTodos}
+        onError={() => <TodosError />}
+        onLoading={() => <TodosLoading />}
+        onEmpty={() => <EmptyTodos />}
+        onEmptySearchResults={ message => <EmptySearchResults message={message}/>}
+        >
         
-        {searchedTodos.map(todo => (
-          <TodoItem
-            key={todo.text}
+        { todo =>
+          <TodoItem key={todo.text}
             text={todo.text}
             completed={todo.completed}
             onComplete={() => completeTodo(todo.text)}
-            onDelete={() => deleteTodo(todo.text)}
-          />
-        ))}
+            onDelete={() => deleteTodo(todo.text)}/>
+        }
       </TodoList>
 
       {!!openModal && (
@@ -62,9 +68,7 @@ function App() {
         </Modal>
       )}
 
-      <CreateTodoButton
-        setOpenModal={setOpenModal}
-      />
+      <CreateTodoButton setOpenModal={setOpenModal} />
     </React.Fragment> 
   )
 }
