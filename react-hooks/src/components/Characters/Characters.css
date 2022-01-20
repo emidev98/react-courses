@@ -1,0 +1,29 @@
+.Characters {
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    text-align: center;
+}
+
+.Characters .Character {
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid gray;
+    margin: 1em;
+    max-width: 300px;
+    box-shadow: 0 0 6px gray;
+}
+
+.Characters .Character img {
+    border-bottom: 1px solid gray;
+}
+
+.DarkMode .Characters .Character {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.20);
+    box-shadow: 0 0 4px rgba(255, 255, 255, 0.20);
+}
+
+.DarkMode Characters .Character img {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.20);
+}
