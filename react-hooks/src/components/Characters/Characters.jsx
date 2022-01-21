@@ -1,9 +1,13 @@
-import React, { useState, useEffect, useReducer, useMemo, useRef } from 'react'
+import React, { useState, useReducer, useMemo, useRef, useCallback } from 'react'
+import useCharacters from '../../hooks/useCharacters';
+import Search from '../Search/Search';
 import './Characters.css';
 
 const initialState = {
     likes: []
 };
+
+const API_URL = 'https://rickandmortyapi.com/api/character/';
 
 const likesReducer = (state, action) => {
     switch(action.type) {
@@ -25,16 +29,10 @@ const likesReducer = (state, action) => {
 }
 
 function Characters() {
-    const [characters, setCharacters] = useState([]);
-    const [search, setSearch] = useState("");
     const [state, dispatch] = useReducer(likesReducer, initialState);
+    const [search, setSearch] = useState('');
+    const characters = useCharacters(API_URL);
     const searchInput = useRef(null);
-
-    useEffect(() => {
-        fetch('https://rickandmortyapi.com/api/character/')
-            .then(response => response.json())
-            .then(data => setCharacters(data.results));
-    }, []);
 
     const onClickAddLike = payload => {
         dispatch({
@@ -43,9 +41,9 @@ function Characters() {
         });
     }
 
-    const onSearch = () => {
-        setSearch(searchInput.current.value);
-    }
+    const handleSearch = useCallback(() => (
+        setSearch(searchInput.current.value)
+    ),[searchInput])
 
     const filteredCharacters = useMemo(()=>
         characters.filter( character => {
@@ -68,10 +66,9 @@ function Characters() {
                 }
             </ul>
             <div className='SearchCharacters'>
-                <input type="text"
-                    ref={searchInput}
-                    value={search}
-                    onChange={onSearch} />
+                <Search search={search} 
+                    searchInput={searchInput} 
+                    handleSearch={handleSearch}/>
             </div>
             <div className="CharactersList">
                 {filteredCharacters.map((character) => (
