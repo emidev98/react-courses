@@ -6,3 +6,19 @@
     background-color: #334355;
     color: rgba(255, 255, 255, 0.55)
 }
+
+
+button {
+    border: 0;
+    height: 40px;
+    cursor: pointer;
+    padding: 1em;
+    background-color: lightseagreen;
+    color: white;
+}
+
+
+.DarkMode button {
+    background-color: whitesmoke;
+    color: #334355;
+}

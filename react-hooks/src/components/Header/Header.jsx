@@ -17,7 +17,7 @@ const Header = () => {
         <div className='Header'>
             <h1>React Hooks</h1>
             <button onClick={toggleDarkMode}>
-                {darkMode ? 'Dark' : 'White'} Mode
+                {darkMode ? 'Dark' : 'Light'} Mode
             </button>
         </div>
     );
